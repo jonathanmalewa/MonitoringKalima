@@ -4,12 +4,13 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, timedelta
 import calendar
+import os, json
 
 # ====== Konstanta State Form ======
 (NAMA, NIP, TUJUAN, PERIODE, PERIODE_START, PERIODE_END, AGENDA, LOKASI, FOTO, KONFIRMASI, STATUS) = range(11)
 
 # ====== Token & Sheet Config ======
-TELEGRAM_TOKEN = '8138475188:AAENaSLnFL140SwouEGm1Q1axeK-0DZ9his'
+TELEGRAM_TOKEN = 'TELEGRAM_TOKEN'
 SPREADSHEET_NAME = 'MonitoringDinas'
 SHEET_NAME = 'Log'
 
@@ -20,7 +21,8 @@ GROUP_CHAT_ID = '-1002527924058'  # Ganti dengan Chat ID group Anda
 
 # ====== Setup Google Sheets ======
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+creds_json = json.loads(os.environ['GOOGLE_CREDS_JSON'])
+creds = ServiceAccountCredentials.from_json_keyfile_name("creds__json", scope)
 client = gspread.authorize(creds)
 
 # Lazy loading untuk sheet - hanya load saat dibutuhkan
